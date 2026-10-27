@@ -33,7 +33,7 @@ public class CalenderController {
     @PostMapping
     public ResponseEntity<Calender> saveCalender(@RequestBody Calender calender,
                                                 UriComponentsBuilder uriBuilder) {
-        Calender createdCalender = calenderService.save(calender);
+        Calender createdCalender = calenderService.saveCalender(calender);
 
         URI location = uriBuilder.path("api/calenders/{id}")
                 .buildAndExpand(createdCalender.getId()).toUri();
@@ -46,5 +46,13 @@ public class CalenderController {
         return ResponseEntity.created(location).body(createdCalender);
 
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Calender> findById(@PathVariable Long id) {
+        Calender calender = calenderService.findById(id);
+
+        return ResponseEntity.ok(calender);
+    }
+
 
 }

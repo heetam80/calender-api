@@ -19,7 +19,7 @@ public interface CalenderMapper {
         INSERT INTO calenders (dates, title, content, category)
         VALUES (#{dates}, #{title}, #{content}, #{category})
         """)
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    @Options(useGeneratedKeys = true, keyProperty = "id,createdAt", keyColumn = "id,created_at")
     int insert(Calender calender);
 
     @Select("""

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CalenderRepository {
+public class  CalenderRepository {
     private final CalenderMapper calenderMapper;
 
     public CalenderRepository(CalenderMapper calenderMapper) {
