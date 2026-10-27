@@ -23,4 +23,8 @@ public class CalenderRepository {
 
     }
 
+    public Calender findById(long id){
+        return calenderMapper.findById(id);
+    }
+
 }

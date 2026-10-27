@@ -2,14 +2,14 @@ package com.example.calenderapi.controller;
 
 import com.example.calenderapi.dto.Calender;
 import com.example.calenderapi.service.CalenderService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -26,10 +26,24 @@ public class CalenderController {
     public ResponseEntity<List<Calender>> findAllCalenders() {
         List<Calender> calenders = calenderService.findAll();
 
-        return new ResponseEntity<>(calenders, HttpStatus.OK);
+//        return new ResponseEntity<>(calenders, HttpStatus.OK);
+        return ResponseEntity.ok(calenders);
     }
 
-    public ResponseEnity<Calender> saveCalender(@RequestBody Calender calender) {
+    @PostMapping
+    public ResponseEntity<Calender> saveCalender(@RequestBody Calender calender,
+                                                UriComponentsBuilder uriBuilder) {
+        Calender createdCalender = calenderService.save(calender);
+
+        URI location = uriBuilder.path("api/calenders/{id}")
+                .buildAndExpand(createdCalender.getId()).toUri();
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(location);
+//
+//        return new ResponseEntity<>(createdCalender, headers, HttpStatus.CREATED);
+
+        return ResponseEntity.created(location).body(createdCalender);
 
     }
 
