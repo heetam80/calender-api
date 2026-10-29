@@ -1,6 +1,7 @@
 package com.example.calenderapi.repository;
 
 import com.example.calenderapi.dto.Calender;
+import com.example.calenderapi.exception.CalenderNotFoundException;
 import com.example.calenderapi.mapper.CalenderMapper;
 import org.springframework.stereotype.Repository;
 
@@ -20,11 +21,21 @@ public class  CalenderRepository {
 
     public int insertCarender(Calender calender) {
         return calenderMapper.insert(calender);
-
     }
 
     public Calender findById(long id){
         return calenderMapper.findById(id);
+    }
+
+    public boolean delete(long id) {
+        return calenderMapper.delete(id) == 1;
+    }
+
+    public Calender update(Calender calender) {
+        if(calenderMapper.update(calender) == 0){
+            throw new CalenderNotFoundException(calender.getId());
+        }
+        return calender;
     }
 
 }

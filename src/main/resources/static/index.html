@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIMEHINA TODAY | イベントカレンダー</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+    <a href="#" class="brand">
+        <span class="brand-mark">✿</span>
+        <span>
+            <small>FAN SCHEDULE</small>
+            <strong>HIMEHINA TODAY</strong>
+        </span>
+    </a>
+
+    <nav class="navigation">
+        <a href="#today">今日</a>
+        <a href="#calendar">カレンダー</a>
+        <a href="#event-form">予定を登録</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">YOUR HIMEHINA SCHEDULE</p>
+            <h1>今日も、ヒメヒナと。</h1>
+            <p>イベントも、大切な予定も、ここからチェック。</p>
+        </div>
+        <div class="hero-icon" aria-hidden="true">♡</div>
+    </section>
+
+    <div id="error-message" class="error-message" role="alert"></div>
+    <div id="status-message" class="status-message" role="status"></div>
+
+    <section id="today" class="section-card">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">TODAY'S SCHEDULE</p>
+                <h2>今日の予定</h2>
+            </div>
+            <span id="today-date" class="date-label"></span>
+        </div>
+        <div id="today-events" class="event-list">
+            <p class="empty-message">予定を読み込んでいます...</p>
+        </div>
+    </section>
+
+    <section id="calendar" class="section-card">
+        <div class="section-heading calendar-heading">
+            <div>
+                <p class="eyebrow">MONTHLY CALENDAR</p>
+                <h2>イベントカレンダー</h2>
+            </div>
+            <div class="month-controls">
+                <button type="button" id="prev-month" class="month-button" aria-label="前月">‹</button>
+                <button type="button" id="today-month" class="today-button">今月</button>
+                <button type="button" id="next-month" class="month-button" aria-label="翌月">›</button>
+            </div>
+        </div>
+
+        <p id="current-month" class="current-month"></p>
+
+        <div class="calendar-weekdays">
+            <div class="sunday">日</div>
+            <div>月</div>
+            <div>火</div>
+            <div>水</div>
+            <div>木</div>
+            <div>金</div>
+            <div class="saturday">土</div>
+        </div>
+
+        <div id="calendar-days" class="calendar-days"></div>
+
+        <p class="calendar-help">
+            日付をクリックすると、その日の予定を確認できるよ。
+        </p>
+    </section>
+
+    <section id="selected-day" class="section-card">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">SELECTED DATE</p>
+                <h2 id="selected-date-title">選択した日の予定</h2>
+            </div>
+            <button type="button" id="add-selected-date" class="primary-button">
+                ＋ この日に登録
+            </button>
+        </div>
+        <div id="selected-events" class="event-list">
+            <p class="empty-message">日付を選択してください。</p>
+        </div>
+    </section>
+
+    <section id="event-form" class="section-card">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">NEW SCHEDULE</p>
+                <h2>予定を登録する</h2>
+            </div>
+            <span class="form-icon">✎</span>
+        </div>
+
+        <form id="create-form">
+            <label for="dates">日付 <span class="required">必須</span></label>
+            <input type="date" id="dates" name="dates" required>
+
+            <label for="title">タイトル <span class="required">必須</span></label>
+            <input type="text" id="title" name="title"
+                   placeholder="例：HIMEHINAライブ" maxlength="200" required>
+
+            <label for="category">カテゴリー</label>
+            <select id="category" name="category">
+                <option value="">未分類</option>
+                <option value="ライブ">ライブ</option>
+                <option value="配信">配信</option>
+                <option value="動画">動画</option>
+                <option value="グッズ">グッズ</option>
+                <option value="その他">その他</option>
+            </select>
+
+            <label for="content">内容</label>
+            <textarea id="content" name="content"
+                      placeholder="予定の詳細を入力..." rows="4"></textarea>
+
+            <button type="submit" id="save-button" class="primary-button save-button">
+                予定を保存する
+            </button>
+
+            <button type="button" id="cancel-edit-button"
+                    class="today-button" hidden>
+                編集をキャンセル
+            </button>
+        </form>
+    </section>
+
+    <!-- IDを指定して予定を1件取得 -->
+    <section id="search-event" class="section-card">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">SEARCH SCHEDULE</p>
+                <h2>IDで予定を1件取得</h2>
+            </div>
+        </div>
+
+        <form id="search-form">
+            <label for="search-id">予定ID</label>
+            <input
+                    type="number"
+                    id="search-id"
+                    name="search-id"
+                    min="1"
+                    placeholder="取得したい予定のIDを入力"
+                    required
+            >
+
+            <button type="submit" id="search-button" class="primary-button">
+                1件取得
+            </button>
+        </form>
+
+        <p id="search-error" class="error-message" role="alert"></p>
+
+        <div id="search-result" class="event-list">
+            <p class="empty-message">
+                取得した予定がここに表示されます。
+            </p>
+        </div>
+    </section>
+
+    <section class="section-card">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">ALL SCHEDULES</p>
+                <h2>登録済みの予定</h2>
+            </div>
+            <button type="button" id="refresh-button" class="today-button">
+                ↻ 更新
+            </button>
+        </div>
+        <div id="all-events" class="event-list">
+            <p class="empty-message">予定を読み込んでいます...</p>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <p>HIMEHINA TODAY</p>
+        <small>自分だけのイベント管理カレンダー</small>
+    </footer>
+</main>
+</body>
+</html>

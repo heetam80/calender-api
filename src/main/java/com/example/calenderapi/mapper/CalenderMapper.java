@@ -28,4 +28,17 @@ public interface CalenderMapper {
         WHERE id = #{id}
         """)
     Calender findById(long id);
+
+    @Delete("DELETE FROM calenders WHERE id = #{id}")
+    int delete(long id);
+
+    @Update("""
+    UPDATE calenders
+    SET dates = #{dates},
+        title = #{title},
+        content = #{content},
+        category = #{category}
+    WHERE id = #{id}
+    """)
+    int update(Calender calender);
 }

@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/calenders")
 public class CalenderController {
-
     private final CalenderService calenderService;
 
     public CalenderController(CalenderService calenderService) {
@@ -54,5 +53,19 @@ public class CalenderController {
         return ResponseEntity.ok(calender);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        calenderService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Calender> update(@PathVariable long id,
+                                           @RequestBody Calender calender){
+        calenderService.update(calender, id);
+
+        return ResponseEntity.ok(calender);
+    }
 
 }
